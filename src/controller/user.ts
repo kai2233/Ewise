@@ -27,7 +27,11 @@ exports.signup = async(req: Request, res: Response, next: NextFunction) => {
             }
         })
         const access_token = getAccessToken(user)
-        res.status(200).cookie("token",access_token,{expires:new Date(Date.now()+3*24*60*60*1000),httpOnly:true})
+        res.status(200).cookie("token",access_token,{expires:new Date(Date.now()+3*24*60*60*1000),httpOnly:true}).json({
+            success:true,
+            access_token,
+            message:"Successfully registered! Welcome to Ewise"
+        })
 
     }
     catch(error){
