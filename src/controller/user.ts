@@ -8,7 +8,7 @@ exports.signup = async(req: Request, res: Response, next: NextFunction) => {
     try{
         const {email,password} = req.body
         if (!email || !password){
-            res.status(400).json({ success: false, message: "Missing email or password"});
+            return res.status(400).json({ success: false, message: "Missing email or password"});
         }
         const existedUser = await prisma.user.findUnique({
             where: {
@@ -16,7 +16,7 @@ exports.signup = async(req: Request, res: Response, next: NextFunction) => {
             },
         });
         if (existedUser){
-            res.status(400).json({ success: false, message: "User already exists"});
+            return res.status(400).json({ success: false, message: "User already exists"});
         }
         const salt = generateSalt()
         const user = await prisma.user.create({
@@ -36,10 +36,10 @@ exports.signup = async(req: Request, res: Response, next: NextFunction) => {
     }
     catch(error){
         if (error instanceof Error) {
-            res.status(400).json({ success: false, message: error.message });
+            return res.status(400).json({ success: false, message: error.message });
         } else {
             console.error('Unknown error:', error);
-            res.status(500).json({ success: false, message: 'An unknown error occurred' });
+            return res.status(500).json({ success: false, message: 'An unknown error occurred' });
         }
     }
 }
