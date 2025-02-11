@@ -20,3 +20,5 @@ const verifyToken = (req: AuthenticatedRequest, res: Response, next: NextFunctio
         res.status(400).json({ success: false, message: 'Invalid token.' });
     }
 }
+
+module.exports = {verifyToken}
