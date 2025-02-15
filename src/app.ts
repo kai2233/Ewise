@@ -6,7 +6,7 @@ var logger = require('morgan');
 import { Request, Response, NextFunction} from "express";  
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-
+require("dotenv").config()
 var app = express();
 const viewsPath = __dirname +"\\..\\"
 // view engine setup
