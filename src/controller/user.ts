@@ -6,7 +6,7 @@ import { Request, Response, NextFunction } from "express";
 
 exports.signup = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const { email, password } = req.body
+        const { email, password, username } = req.body
         if (!email || !password) {
             return res.status(400).json({ success: false, message: "Missing email or password", data: null });
         }
@@ -22,6 +22,7 @@ exports.signup = async (req: Request, res: Response, next: NextFunction) => {
         const user = await prisma.user.create({
             data: {
                 email,
+                username: username ?? "",
                 password: encryptPassword(password, salt),
                 salt: salt
             }
