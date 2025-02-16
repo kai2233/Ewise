@@ -25,6 +25,11 @@ exports.signup = async (req: Request, res: Response, next: NextFunction) => {
                 username,
                 password: encryptPassword(password, salt),
                 salt: salt
+            },
+            select: {
+                id: true,
+                email: true,
+                username: true
             }
         })
         const access_token = getAccessToken(user)
@@ -39,7 +44,7 @@ exports.signup = async (req: Request, res: Response, next: NextFunction) => {
             success: true,
             access_token,
             message: "Successfully registered! Welcome to Ewise",
-            data: null
+            data: user
         })
 
     }
@@ -66,6 +71,11 @@ exports.login = async (req: Request, res: Response, next: NextFunction) => {
         const user = await prisma.user.findUnique({
             where: {
                 email: email
+            },
+            select:{
+                id: true,
+                username: true,
+                email: true
             }
         })
 
@@ -96,7 +106,7 @@ exports.login = async (req: Request, res: Response, next: NextFunction) => {
             success: true,
             access_token,
             message: "Login successfully! Welcomeback!",
-            data: null
+            data: user
         })
     }
     catch (error) {
