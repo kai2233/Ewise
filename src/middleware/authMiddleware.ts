@@ -1,9 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 const jwt = require('jsonwebtoken')
+import {AuthenticatedRequest} from "../types"
 
-interface AuthenticatedRequest extends Request {
-    user?: {};
-}
 const verifyToken = (req: AuthenticatedRequest, res: Response, next: NextFunction) =>{
     const token = req.cookies.token || (typeof req.headers["authorization"] === "string" 
         ? req.headers["authorization"].split(" ")[1] 
