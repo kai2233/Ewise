@@ -1,11 +1,11 @@
 var createError = require('http-errors');
-var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-import { Request, Response, NextFunction} from "express";  
+import express, { Request, Response, NextFunction} from "express";  
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var foodItemRouter = require('./routes/foodItem');
 require("dotenv").config()
 var app = express();
 const viewsPath = __dirname +"\\..\\"
@@ -20,7 +20,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(viewsPath, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/api/users', usersRouter);
+app.use('/api/foodItem',foodItemRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req:Request, res:Response, next: NextFunction) {

@@ -68,14 +68,9 @@ exports.login = async (req: Request, res: Response, next: NextFunction) => {
                 data: null
             })
         }
-        const user = await prisma.user.findUnique({
+        let user = await prisma.user.findUnique({
             where: {
                 email: email
-            },
-            select:{
-                id: true,
-                username: true,
-                email: true
             }
         })
 
@@ -93,6 +88,11 @@ exports.login = async (req: Request, res: Response, next: NextFunction) => {
                 message: "Invalid password. Please try again",
                 data: null
             })
+        }
+        user = {
+            id:user.id,
+            username: user.username,
+            email:user.email,
         }
         const access_token = getAccessToken(user)
         if (!access_token) {

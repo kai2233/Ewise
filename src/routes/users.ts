@@ -1,11 +1,9 @@
-var express = require('express');
+import express from "express"
 var router = express.Router();
-import { Request, Response, NextFunction } from "express";
-const{signup} = require("../controller/user");
+const{signup, login} = require("../controller/user");
 
-router.get('/', function(req: Request, res: Response, next: NextFunction) {
-  res.send('respond with a resource');
-});
 
 router.post('/signup',signup)
+router.get('/login',login)
+
 module.exports = router;
