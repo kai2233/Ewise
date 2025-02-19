@@ -8,7 +8,7 @@ var usersRouter = require('./routes/users');
 var foodItemRouter = require('./routes/foodItem');
 require("dotenv").config()
 var app = express();
-const viewsPath = __dirname +"\\..\\"
+const viewsPath = __dirname +process.env.VIEWS_PATH
 // view engine setup
 app.set('views', path.join(viewsPath, 'views'));
 app.set('view engine', 'ejs');
@@ -21,7 +21,7 @@ app.use(express.static(path.join(viewsPath, 'public')));
 
 app.use('/', indexRouter);
 app.use('/api/users', usersRouter);
-app.use('/api/foodItem',foodItemRouter)
+app.use('/api/foodItems',foodItemRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req:Request, res:Response, next: NextFunction) {
