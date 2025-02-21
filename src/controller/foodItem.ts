@@ -54,3 +54,36 @@ exports.allFoodItem = async (req: AuthenticatedRequest, res: Response, next: Nex
         }
     }
 }
+
+exports.updateFoodItem = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+    try {
+        const foodId = req.params.id
+        const updateinfo = req.body
+        const updateData: Record<string, any> = {}
+
+        for (const key in updateinfo){
+            if (key in prisma.foodItem.fields) {
+                updateData[key] = updateinfo[key];
+            }
+        }      
+        const updateResult = await prisma.foodItem.update({
+            where: {
+                id:foodId
+            },
+            data:updateData
+        })
+
+        res.status(200).json({
+            success:true,
+            message:"all food items in inventory that belong to the user",
+            data:updateResult
+        })
+    }
+    catch (error) {
+        if (error instanceof Error) {
+            return res.status(400).json({ success: false, message: error.message, data: null });
+        } else {
+            return res.status(500).json({ success: false, message: 'An unknown error occurred', data: null });
+        }
+    }
+}
