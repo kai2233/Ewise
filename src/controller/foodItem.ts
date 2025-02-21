@@ -87,3 +87,27 @@ exports.updateFoodItem = async (req: AuthenticatedRequest, res: Response, next: 
         }
     }
 }
+
+exports.deleteFoodItem = async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+    try {
+        const foodId = req.params.id
+        const deleteResult = await prisma.foodItem.delete({
+            where: {
+                id:foodId
+            }
+        })
+
+        res.status(200).json({
+            success:true,
+            message:"food item successfully deleted",
+            data:deleteResult
+        })
+    }
+    catch (error) {
+        if (error instanceof Error) {
+            return res.status(400).json({ success: false, message: error.message, data: null });
+        } else {
+            return res.status(500).json({ success: false, message: 'An unknown error occurred', data: null });
+        }
+    }
+}
